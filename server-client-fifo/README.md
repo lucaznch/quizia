@@ -1,12 +1,7 @@
-# Quizia - a simple, fun and challenging trivia quiz
-
+# Server-client program for a single client
 ### Compilation
-To compile the server and client programs, either use the provided **Makefile** or use the following commands:
+To compile the server and client programs, use the provided **Makefile**.
 
-```sh
-gcc -o server server.c
-gcc -o client client.c
-```
 ### Running the Program
 1. Start the server in one terminal:
 ```sh
