@@ -5,4 +5,5 @@
 ### Quizia - A simple, fun and challenging trivia quiz
 The quiz was developed in different ways:
 1. [here](base/README.md) you can find the first program I made.
-2. [here](server-client-fifo/README.md) you can find a server-client program, using named pipes (FIFOs) for inter-process communication.
+2. [here](server-client-fifo/README.md) you can find a server-client program, using named pipes (FIFOs) for inter-process communication, for a **single** client.
+3. [here](big-server-client-fifo/README.md) you can find a server-client program, using named pipes (FIFOs) for inter-process communication, for **multiple** clients.
