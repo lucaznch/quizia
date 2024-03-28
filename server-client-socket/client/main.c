@@ -230,6 +230,8 @@ void game(int client_socket_fd) {
         read(client_socket_fd, &question_status, 1);
 
         if (question_status == DISCARD) { return; } // if the server has to terminate, we also terminate the client
+	
+	system("clear");
 
         request = QUESTION;
         send(client_socket_fd, &request, 1, 0); // 2. if status of question is ok, the client requests the question
@@ -279,7 +281,6 @@ void game(int client_socket_fd) {
                             return;
                         }
                     }
-
                     if (question_status == LAST_QUESTION) {
                         printf(WIN);
                         request = EXIT;
@@ -297,15 +298,11 @@ void game(int client_socket_fd) {
 }
 
 
-
-
-
-
 int main() {
     int client_socket_fd = 0, stop = 0;
     struct sockaddr_in serv_addr;
 
-    // Creating socket file descriptor
+    // creates the client socket of type SOCK_STREAM, domain AF_INET (IPv4), protocol 0 (default)
     if ((client_socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Socket creation error \n");
         return -1;
@@ -314,7 +311,7 @@ int main() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
-    // Convert IPv4 and IPv6 addresses from text to binary form
+    // convert IPv4 and IPv6 addresses from text to binary form
     if (inet_pton(AF_INET, SERVER_IP, &serv_addr.sin_addr) <= 0) {
         printf("\nInvalid address/ Address not supported \n");
         return -1;
@@ -324,8 +321,6 @@ int main() {
         printf("\nConnection Failed \n");
         return -1;
     }
-
-    
 
     printf(SCREEN_HOME);
     while (1) {
@@ -351,8 +346,6 @@ int main() {
                 break;
         }
     }
-
     close(client_socket_fd);
-
     return 0;
 }
