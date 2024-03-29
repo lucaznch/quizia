@@ -165,13 +165,14 @@ int parser(QuestionNode **head) {
 }
 
 
-
 /// @brief handles the client
 /// @param client_socket_fd descriptor of the client socket
 /// @param head head of linked list
 void handle_client(int client_socket_fd, QuestionNode **head) {
-    int n;
+    int n, i = 0;
     QuestionNode *node = *head;
+
+    printf("client log:\n");
 
     while (node != NULL) {
         char c;
@@ -182,6 +183,7 @@ void handle_client(int client_socket_fd, QuestionNode **head) {
         //      if we are in the last question, the server sends LAST_QUESTION
         //      if the server has to terminate the connection, the server sends DISCARD
         if ((*node).next == NULL) { c = LAST_QUESTION; }
+        else if (quit) { c = DISCARD; }
         else { c = PROCEED; }
 
         send(client_socket_fd, &c, 1, 0);
@@ -190,18 +192,21 @@ void handle_client(int client_socket_fd, QuestionNode **head) {
             switch (c) {
                 case QUESTION:
                     send(client_socket_fd, (*(*node).question).question, (*(*node).question).question_length + 1, 0);
+                    printf("question %d\n", i++);
                     break;
                 case ANSWER:
                     send(client_socket_fd, (*(*node).question).answer, (*(*node).question).answer_length + 1, 0);
+                    printf("answered\n");
                     break;
                 case CLUE:
                     send(client_socket_fd, (*(*node).question).clue, (*(*node).question).clue_length + 1, 0);
+                    printf("clue\n");
                     break;
                 case NEXT_QUESTION:
                     next_question = 1;
                     break;
                 case EXIT:
-                    printf("client disconnected(/exit)\n");
+                    printf("client disconnected: /exit command\n");
                     return;
             }
             if (next_question) { break; }
@@ -270,12 +275,15 @@ int main() {
         perror("accept");
         exit(EXIT_FAILURE);
     }
-    printf("Connection established with client.\n");
+    printf("connection established with client.\n");
 
     signal(SIGINT, sigint_handler);
     signal(SIGPIPE, sigpipe_handler);
 
     handle_client(client_socket_fd, &linked_list_questions_head);
+
+    if (quit) { printf("server terminated successfully by SIGINT\n"); }
+    else { printf("client disconnected\n"); }
 
     clear(&linked_list_questions_head);
 

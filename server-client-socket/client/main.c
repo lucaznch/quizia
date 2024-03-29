@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 
 #define PORT 8080
-#define SERVER_IP "127.0.0.1" // change this to the server's IP address
+#define SERVER_IP "127.0.0.1" // 127.0.0.1 for local machine. change this to the server's IP address
 
 #define BUF_PRS_SIZE 84
 #define BUF_CMD_SIZE 16
@@ -229,9 +229,12 @@ void game(int client_socket_fd) {
 
         read(client_socket_fd, &question_status, 1);
 
-        if (question_status == DISCARD) { return; } // if the server has to terminate, we also terminate the client
+        if (question_status == DISCARD) { // if the server has to terminate, we also terminate the client
+            printf("server terminated\n");
+            return;
+        }
 	
-	system("clear");
+	    system("clear");
 
         request = QUESTION;
         send(client_socket_fd, &request, 1, 0); // 2. if status of question is ok, the client requests the question
@@ -269,10 +272,12 @@ void game(int client_socket_fd) {
 
                     if (compare(server_buf, user_buf) == 0) {
                         printf(CORRECT);
+                        sleep(1);
                         points++;
                     }
                     else {
                         printf(INCORRECT);
+                        sleep(1);
                         points--;
                         if (points < 0) {
                             printf(LOSE);
@@ -304,7 +309,7 @@ int main() {
 
     // creates the client socket of type SOCK_STREAM, domain AF_INET (IPv4), protocol 0 (default)
     if ((client_socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("\n Socket creation error \n");
+        printf("failed to create client socket\n");
         return -1;
     }
 
@@ -313,14 +318,16 @@ int main() {
 
     // convert IPv4 and IPv6 addresses from text to binary form
     if (inet_pton(AF_INET, SERVER_IP, &serv_addr.sin_addr) <= 0) {
-        printf("\nInvalid address/ Address not supported \n");
+        printf("invalid address / address not supported\n");
         return -1;
     }
 
     if (connect(client_socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\nConnection Failed \n");
+        printf("connection failed \n");
         return -1;
     }
+
+    system("clear"); 
 
     printf(SCREEN_HOME);
     while (1) {
