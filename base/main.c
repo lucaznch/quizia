@@ -69,8 +69,10 @@ void cleanup(int fd) {
 
 
 /*
-reads a line and returns the corresponding command
+reads a line and returns the corresponding command - when len == 0 => command. len != 0 => line
 @param fd file descriptor to read from
+@param len max size of line - used to read a line that is not a command
+@param answer stores the line read - used to read a line that is not a command
 @return the command read
 */
 int get_command(int fd, int len, char *answer) {
