@@ -1,5 +1,3 @@
-# Potential Acetylsalicylic
-
 ## Quizia - A simple, fun and challenging trivia quiz
 ### How to play?
 * The user will start with a total of 2 points.
