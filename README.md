@@ -1,13 +1,5 @@
 # Potential Acetylsalicylic
 
-This project originated due to my procrastination in the last few weeks of the third quarter of my second year, with no big goal other than playing around in C a little.
-
-> *Sometimes I'll start a sentence, and I don't even know where it's going. I just hope I find it along the way. Like an improv conversation. An improversation.*
-
-The initial idea was to make a simple C program that would play a basic trivia quiz. However, this program served as the basis for the programs I made later.
-
-With these new programs, I was able to practice programming with **pointers**, **linked lists**, with a **server-client** system, with **synchronization mechanisms** between tasks as well as **communication mechanisms between processes** (FIFOs, signals and sockets), and the use of **POSIX file system** programming interfaces.
-
 ## Quizia - A simple, fun and challenging trivia quiz
 ### How to play?
 * The user will start with a total of 2 points.
